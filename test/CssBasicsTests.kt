@@ -1,9 +1,9 @@
 package kotlinx.css.test
 
 import kotlinx.css.*
-import org.junit.*
-import kotlin.test.*
-import org.jetbrains.spek.api.*
+import org.jetbrains.spek.api.Spek
+import org.junit.Test
+import kotlin.test.assertEquals
 
 fun renderCSS(body: StyleContainer.() -> Unit): String {
     val style = StyleContainer()
@@ -15,97 +15,97 @@ fun Style.placeholder() {
     property("a", "b")
 }
 
-class TestCssBuilder() : Spek() {{
-    given("css builder") {
-
-        on("using tag") {
-            val css = renderCSS {
-                a { placeholder() }
-            }
-            it("should generate tag selector") {
-                assertEquals("a {\n}\n\n", css)
-            }
-        }
-
-        on("using tag and id") {
-            val css = renderCSS {
-                a.id("top") { placeholder() }
-            }
-            it("should build tag#id selector") {
-                assertEquals("a#top {\n}\n\n", css)
-            }
-        }
-
-        on("using id") {
-            val css = renderCSS {
-                id("top") { placeholder() }
-            }
-            it("should build #id selector") {
-                assertEquals("#top {\n}\n\n", css)
-            }
-        }
-
-        on("using style") {
-            val css = renderCSS {
-                style("top") { placeholder() }
-            }
-            it("should build .style selector") {
-                assertEquals(".top {\n}\n\n", css)
-            }
-        }
-
-        on("using style and id") {
-            val css = renderCSS {
-                style("top").id("main") { placeholder() }
-            }
-            it("should build .style#id selector") {
-                assertEquals(".top#main {\n}\n\n", css)
-            }
-        }
-
-        on("using tag, style and id") {
-            val css = renderCSS {
-                div.style("top").id("main") { placeholder() }
-            }
-            it("should build tag.style#id selector") {
-                assertEquals("div.top#main {\n}\n\n", css)
-            }
-        }
-
-        on("using media") {
-            val css = renderCSS {
-                div {
-                    media("min-width:1200px") { placeholder() }
+class TestCssBuilder() : Spek() {
+    init {
+        given("css builder") {
+            on("using tag") {
+                val css = renderCSS {
+                    a { placeholder() }
+                }
+                it("should generate tag selector") {
+                    assertEquals("a {\n}\n\n", css)
                 }
             }
-            it("should build @media { div } selector") {
-                assertEquals("@media (min-width:1200px) {\ndiv {\n}\n\n}\n\n", css)
-            }
-        }
 
-        on("using pseudo-selector") {
-            val css = renderCSS {
-                a.select("hover") {
-                    placeholder()
+            on("using tag and id") {
+                val css = renderCSS {
+                    a.id("top") { placeholder() }
+                }
+                it("should build tag#id selector") {
+                    assertEquals("a#top {\n}\n\n", css)
                 }
             }
-            it("should build a:hover selector") {
-                assertEquals("a:hover {\n}\n\n", css)
-            }
-        }
 
-        on("using not pseudo-selector") {
-            val css = renderCSS {
-                a.not.attribute("href") {
-                    placeholder()
+            on("using id") {
+                val css = renderCSS {
+                    id("top") { placeholder() }
+                }
+                it("should build #id selector") {
+                    assertEquals("#top {\n}\n\n", css)
                 }
             }
-            it("should build a:not([href]) selector") {
-                assertEquals("a:not([href]) {\n}\n\n", css)
+
+            on("using style") {
+                val css = renderCSS {
+                    style("top") { placeholder() }
+                }
+                it("should build .style selector") {
+                    assertEquals(".top {\n}\n\n", css)
+                }
+            }
+
+            on("using style and id") {
+                val css = renderCSS {
+                    style("top").id("main") { placeholder() }
+                }
+                it("should build .style#id selector") {
+                    assertEquals(".top#main {\n}\n\n", css)
+                }
+            }
+
+            on("using tag, style and id") {
+                val css = renderCSS {
+                    div.style("top").id("main") { placeholder() }
+                }
+                it("should build tag.style#id selector") {
+                    assertEquals("div.top#main {\n}\n\n", css)
+                }
+            }
+
+            on("using media") {
+                val css = renderCSS {
+                    div {
+                        media("min-width:1200px") { placeholder() }
+                    }
+                }
+                it("should build @media { div } selector") {
+                    assertEquals("@media (min-width:1200px) {\ndiv {\n}\n\n}\n\n", css)
+                }
+            }
+
+            on("using pseudo-selector") {
+                val css = renderCSS {
+                    a.select("hover") {
+                        placeholder()
+                    }
+                }
+                it("should build a:hover selector") {
+                    assertEquals("a:hover {\n}\n\n", css)
+                }
+            }
+
+            on("using not pseudo-selector") {
+                val css = renderCSS {
+                    a.not.attribute("href") {
+                        placeholder()
+                    }
+                }
+                it("should build a:not([href]) selector") {
+                    assertEquals("a:not([href]) {\n}\n\n", css)
+                }
             }
         }
     }
-}
 }
 
 class CssBasicsTests() {
@@ -174,6 +174,7 @@ class CssBasicsTests() {
         assertEquals("a {\n}\n\na+div {\n}\n\n", doc)
 
     }
+
     Test fun testCssAfter() {
         val doc = renderCSS {
             a {

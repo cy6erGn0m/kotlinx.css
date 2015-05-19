@@ -20,7 +20,7 @@ data class StyleProperty(val name: String, val value: String) {
 class StyleContainer {
     var combinator: String = ""
 
-    val styles: MutableList<Style> = ArrayList<Style>()
+    val styles: MutableList<Style> = ArrayList()
     fun render(builder: StringBuilder, outerSelector: String) {
         for (style in styles) {
             if (combinator.startsWith("@media")) {
@@ -50,8 +50,8 @@ class StyleContainer {
 class Style {
     var selector: String = "*"
 
-    val properties: MutableList<StyleProperty> = ArrayList<StyleProperty>()
-    val containers: MutableList<StyleContainer> = ArrayList<StyleContainer>()
+    val properties: MutableList<StyleProperty> = ArrayList()
+    val containers: MutableList<StyleContainer> = ArrayList()
     fun invoke(body: Style.() -> Unit): Style {
         body()
         return this
@@ -118,9 +118,9 @@ fun Style.select(state: String): Style {
 }
 
 enum class AttributeOperation {
-    equals
-    contains
-    startsWith
+    equals,
+    contains,
+    startsWith,
     endsWith
 }
 

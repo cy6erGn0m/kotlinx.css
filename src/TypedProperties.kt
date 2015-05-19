@@ -1,6 +1,6 @@
 package kotlinx.css
 
-fun Style.border(width: LinearDimension) = border("$width solid")
+fun Style.border(width: LinearDimension): Unit = border("$width solid")
 
 fun Style.box_sizing(boxModel: String) {
     property("box-sizing", boxModel)
@@ -30,7 +30,7 @@ fun Style.border_radius(radius: LinearDimension): Unit {
 }
 
 fun Style.shadow(vararg shadows: String): Unit {
-    val value = shadows.makeString(", ")
+    val value = shadows.joinToString(", ")
     property("box-shadow", value)
     property("-moz-box-shadow", value)
     property("-webkit-box-shadow", value)
